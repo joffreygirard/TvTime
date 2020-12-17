@@ -6,19 +6,19 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" *ngIf="!isdisplayInfo">
   <ion-segment (ionChange)="segmentChanged($event)" value="aVoir">
     <ion-segment-button value="aVoir">
-      <ion-label>À VOIR</ion-label>
+      <ion-label>A VOIR</ion-label>
     </ion-segment-button>
     <ion-segment-button value="aVenir">
-      <ion-label>À VENIR</ion-label>
+      <ion-label>A VENIR</ion-label>
     </ion-segment-button>
   </ion-segment>
 
 
 
-  <div [ngSwitch]="tabFilms">
+  <div [ngSwitch]="tabFilms" *ngIf="!isdisplayInfo">
     <!-- Onglet a voir -->
     <ion-card *ngSwitchCase="'aVoir'">
         <ion-row>
@@ -32,10 +32,10 @@
     <!-- Onglet a venir -->
     <ion-card *ngSwitchCase="'aVenir'">
       <ion-card-header>
-        Card Info
+        Films a venir...
       </ion-card-header>
       <ion-card-content>
-        Your card info content here
+
       </ion-card-content>
     </ion-card>
   </div>
