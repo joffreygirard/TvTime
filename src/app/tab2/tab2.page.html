@@ -1,17 +1,60 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Tab 2
+      Films
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 2</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-segment (ionChange)="segmentChanged($event)" value="aVoir">
+    <ion-segment-button value="aVoir">
+      <ion-label>À VOIR</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="aVenir">
+      <ion-label>À VENIR</ion-label>
+    </ion-segment-button>
+  </ion-segment>
 
-  <app-explore-container name="Tab 2 page"></app-explore-container>
+
+
+  <div [ngSwitch]="tabFilms">
+    <!-- Onglet a voir -->
+    <ion-card *ngSwitchCase="'aVoir'">
+        <ion-row>
+          <!-- Affiche tous les films à voir -->
+          <ion-col size="4" *ngFor="let film of listeFilmsAVoir">
+            <img  src="{{film.source}}" (click)="displayInfo(film.id)" />
+          </ion-col>
+        </ion-row>
+    </ion-card>
+
+    <!-- Onglet a venir -->
+    <ion-card *ngSwitchCase="'aVenir'">
+      <ion-card-header>
+        Card Info
+      </ion-card-header>
+      <ion-card-content>
+        Your card info content here
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>
+
+<!-- Affichage des détails du film -->
+<ion-content *ngIf="isdisplayInfo" [fullscreen]="true" >
+  <ion-card *ngFor="let film of listeFilmsAVoir">
+    <div *ngIf="currentFilmToDisplay === film.id">
+      <img src="{{film.source}}" />
+      <ion-card-header>
+        <ion-card-title>{{film.titre}}</ion-card-title>
+        <ion-card-subtitle>{{film.date}}</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        blablabla
+      </ion-card-content>
+    </div>
+  </ion-card>
+  <ion-button (click)="undisplayInfo()" color="danger" shape="round" expand="full">Retour</ion-button>
 </ion-content>
