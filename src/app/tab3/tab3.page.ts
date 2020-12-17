@@ -10,7 +10,7 @@ export class Tab3Page implements OnInit{
   
   isdisplayInfo: boolean;
   listeFilms = [];
-  idFilm: number;
+  currentFilmToDisplay: number;
 
   constructor() {}
 
@@ -39,13 +39,22 @@ export class Tab3Page implements OnInit{
       source: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7hAv9GXsE4S9qzE60RY-EkQ0U5KLcNRrvRQSYlRs736PqS7WJ",
       producteur: "Andrés Muschietti",
     }
+    this.listeFilms[3] = {
+      id: 4,
+      titre: "Retour vers le futur",
+      date: "30 octobre 198",
+      source: "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSwMYtv4XLYfcCsZiv-Ay5XekYIY5zZP2RMlj68V9g68RAzbwiF",
+      producteur: "Robert Zemeckis",
+    }
   }
 
-  displayInfo() {
+  //Afficher les détail d'un film
+  displayInfo(idFilm) {
     this.isdisplayInfo = true;
-    //return idFilm;
+    this.currentFilmToDisplay = idFilm;
   }
 
+  //Fermer les détail du film
   undisplayInfo() {
     this.isdisplayInfo = false;
   }
