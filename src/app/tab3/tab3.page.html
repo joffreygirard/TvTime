@@ -11,7 +11,7 @@
   <ion-searchbar></ion-searchbar>
 
   <div *ngFor="let carte of listeFilms">
-    <ion-item button (click)="displayInfo(carte.id)">
+    <ion-item (click)="displayInfo(carte.id)">
       <ion-label>
           <img src="{{carte.source}}" />
       </ion-label>
