@@ -42,7 +42,7 @@
 </ion-content>
 
 <!-- Affichage des détails du film -->
-<ion-content *ngIf="isdisplayInfo" [fullscreen]="true">
+<ion-content *ngIf="isdisplayInfo" [fullscreen]="true" >
   <ion-card *ngFor="let film of listeFilmsAVoir">
     <div *ngIf="currentFilmToDisplay === film.id">
       <img src="{{film.source}}" />

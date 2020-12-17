@@ -11,6 +11,7 @@ export class Tab2Page {
   listeFilmsAVoir = [];
   isdisplayInfo: boolean;
   currentFilmToDisplay: number;
+  tabFilms:string;
 
   //lorsque l'on change d'onglet
   segmentChanged(ev: any) {
@@ -19,12 +20,12 @@ export class Tab2Page {
  }
 
   constructor() {
-    this.tabFilms = 'aVoir';
 
   }
 
 
   ngOnInit(){
+    this.tabFilms = 'aVoir';
     // Tableau de films
     this.listeFilmsAVoir[0] = {
       id: 1,
