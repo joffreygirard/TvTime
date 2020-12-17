@@ -1,17 +1,53 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Tab 1
+      Séries
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
-    </ion-toolbar>
-  </ion-header>
 
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+  <!-- Onglets épisodes à voir et épisodes à venir -->
+  <ion-segment (ionChange)="segmentChanged($event)" value="aVoir">
+    <ion-segment-button value="aVoir">
+      <ion-label>A VOIR</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="aVenir">
+      <ion-label>A VENIR</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+
+  <div [ngSwitch]="segment">
+
+    <!-- Liste des épisodes à voir -->
+    <div *ngSwitchCase="'aVoir'">
+      <div *ngFor="let episode of episodesAVoir">
+
+        <!-- Informations de l'épisode à voir -->
+        <ion-item>
+          <ion-avatar slot="start">
+            <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
+          </ion-avatar>
+          <ion-label>
+            <h3>{{episode.serieName}}</h3>
+            <ion-item>
+              <ion-label style="font-size: 12px;" >S{{episode.seasonNumber}} E{{episode.episodeNumber}} {{episode.episodeName}}</ion-label>
+              <ion-note slot="end" color="medium" (click)="setToSee(episode)"><ion-icon name="eye-outline"></ion-icon></ion-note>
+            </ion-item>
+            <p></p>
+          </ion-label>
+        </ion-item>
+
+      </div>
+    </div>
+
+    <!-- Liste des épisodes à venir -->
+    <ion-card *ngSwitchCase="'aVenir'">
+      <ion-card-content>
+        Aucun épisode à venir pour l'instant
+      </ion-card-content>
+    </ion-card>
+  </div>
 </ion-content>
