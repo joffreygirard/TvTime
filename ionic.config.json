@@ -1,0 +1,7 @@
+{
+  "name": "tvtime",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
