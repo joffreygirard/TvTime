@@ -6,38 +6,75 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content *ngIf="!isdisplayInfo" [fullscreen]="true">
+
+<ion-content *ngIf="!isdisplayInfoFilm && !isdisplayInfoSerie" [fullscreen]="true">
 
   <ion-searchbar></ion-searchbar>
-
-  <div *ngFor="let carte of listeFilms">
-    <ion-item (click)="displayInfo(carte.id)">
+  <h1>Films</h1>
+  <div *ngFor="let film of listeFilms">
+    <ion-item (click)="displayInfoFilm(film.id)">
       <ion-label>
-          <img src="{{carte.source}}" />
+          <img src="{{film.source}}" />
+      </ion-label>
+    </ion-item>
+  </div>
+
+  <h1>Séries</h1>
+  <div *ngFor="let serie of listeSeries">
+    <ion-item (click)="displayInfoSerie(serie.id)">
+      <ion-label>
+          <img src="{{serie.source}}" />
       </ion-label>
     </ion-item>
   </div>
   
 </ion-content>
 
-<ion-content *ngIf="isdisplayInfo" [fullscreen]="true">
+<ion-content *ngIf="isdisplayInfoFilm" [fullscreen]="true">
 
-  <ion-card *ngFor="let carte of listeFilms">
+  <ion-card *ngFor="let film of listeFilms">
     
-    <div *ngIf="currentFilmToDisplay === carte.id">
-      <img src="{{carte.source}}" />
+    <div *ngIf="currentFilmToDisplay === film.id">
+      <img src="{{film.source}}" />
       <ion-card-header>
-        <ion-card-title>{{carte.titre}}</ion-card-title>
-        <ion-card-subtitle>{{carte.date}} / 2h 28min / Science fiction, Thriller</ion-card-subtitle>
+        <ion-card-title>{{film.titre}}</ion-card-title>
+        <ion-card-subtitle>{{film.date}} ‧ {{film.duree}} ‧ {{film.type}}</ion-card-subtitle>
       </ion-card-header>
 
       <ion-card-content>
-        blablabla
+        {{film.synopsis}}
       </ion-card-content>
+      <div *ngFor="let acteur of film.acteurs">
+        <h3>{{acteur}}</h3>
+      </div>
     </div>
 
   </ion-card>
-  <ion-button (click)="undisplayInfo()" color="danger" shape="round" expand="full">Retour</ion-button>
+  <ion-button (click)="undisplayInfoFilm()" color="danger" shape="round" expand="full">Retour</ion-button>
+  
+</ion-content>
+
+<ion-content *ngIf="isdisplayInfoSerie" [fullscreen]="true">
+
+  <ion-card *ngFor="let serie of listeSeries">
+    
+    <div *ngIf="currentSerieToDisplay === serie.id">
+      <img src="{{serie.source}}" />
+      <ion-card-header>
+        <ion-card-title>{{serie.titre}}</ion-card-title>
+        <ion-card-subtitle>{{serie.date}} ‧ {{serie.duree}} ‧ {{serie.type}}</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        {{serie.synopsis}}
+      </ion-card-content>
+      <div *ngFor="let acteur of film.acteurs">
+        <h3>{{acteur}}</h3>
+      </div>
+    </div>
+
+  </ion-card>
+  <ion-button (click)="undisplayInfoSerie()" color="danger" shape="round" expand="full">Retour</ion-button>
   
 </ion-content>
 
