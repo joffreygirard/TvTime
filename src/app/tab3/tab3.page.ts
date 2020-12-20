@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Tab2Page } from '../tab2/tab2.page';
 
 @Component({
   selector: 'app-tab3',
@@ -7,18 +8,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class Tab3Page implements OnInit{
 
+  // TODO 
+  tab2= new Tab2Page();
   
+  // atributs lié aux films
   isdisplayInfoFilm: boolean;
-  isdisplayInfoSerie: boolean;
   listeFilms = [];
-  listeSeries = [];
   currentFilmToDisplay: number;
+
+    // atributs lié aux séries
+  isdisplayInfoSerie: boolean;
+  listeSeries = [];
   currentSerieToDisplay: number;
+  
 
   constructor() {}
 
+  // méthode lancer automatiquement qui affecte un valeur aux variables (ici la liste des films et séries par exemple)
   ngOnInit(){
-    
+
     this.isdisplayInfoFilm = false;
     this.isdisplayInfoSerie = false;
 
@@ -73,7 +81,7 @@ export class Tab3Page implements OnInit{
     }
   }
 
-  //Afficher les détail d'un film
+  //Afficher les détail d'un film passé en paramètre
   displayInfoFilm(idFilm) {
     this.isdisplayInfoFilm = true;
     this.currentFilmToDisplay = idFilm;
@@ -84,7 +92,7 @@ export class Tab3Page implements OnInit{
     this.isdisplayInfoFilm = false;
   }
 
-  //Afficher les détail d'une série
+  //Afficher les détail d'une série passé en paramètre
   displayInfoSerie(idFilm) {
     this.isdisplayInfoSerie = true;
     this.currentSerieToDisplay = idFilm;
@@ -93,6 +101,32 @@ export class Tab3Page implements OnInit{
   //Fermer les détail de la série
   undisplayInfoSerie() {
     this.isdisplayInfoSerie = false;
+  }
+
+  //Supprime le film numéro "filmID" de la liste des films 
+  addFilmToWatch(filmID) {
+    this.isdisplayInfoFilm = false;
+    this.listeFilms.splice(filmID,1);
+
+    //Update l'id du film en fonction de sa position dans le tableau
+    for (let i = 0; i < this.listeFilms.length; i++) {
+      if (this.listeFilms[i].id != i) {
+        this.listeFilms[i].id = i;
+      }
+    }
+  }
+
+  //Supprime la série numéro "serieID" de la liste des séries 
+  addSerieToWatch(serieID) {
+    this.isdisplayInfoSerie = false;
+    this.listeSeries.splice(serieID,1);
+
+    //Update l'id de la série en fonction de sa position dans le tableau
+    for (let i = 0; i < this.listeSeries.length; i++) {
+      if (this.listeSeries[i].id != i) {
+        this.listeSeries[i].id = i;
+      }
+    }
   }
 
 }
