@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Tab2Page } from '../tab2/tab2.page';
+import { MovieService, SearchType } from '../services/movie.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-tab3',
@@ -8,23 +10,31 @@ import { Tab2Page } from '../tab2/tab2.page';
 })
 export class Tab3Page implements OnInit{
 
-  // TODO 
+  // TODO
   tab2= new Tab2Page();
-  
+
   // atributs lié aux films
   isdisplayInfoFilm: boolean;
   listeFilms = [];
   currentFilmToDisplay: number;
 
-    // atributs lié aux séries
+  // atributs lié aux séries
   isdisplayInfoSerie: boolean;
   listeSeries = [];
   currentSerieToDisplay: number;
-  
 
-  constructor() {}
+  // Search
+  results: Observable<any>;
+  searchTerm: string = '';
+  type: string = "multi";
 
-  // méthode lancer automatiquement qui affecte un valeur aux variables (ici la liste des films et séries par exemple)
+  /**
+   * Constructor of our first page
+   * @param movieService The movie Service to get data
+   */
+  constructor(private movieService: MovieService) { }
+
+  // méthode lancee automatiquement qui affecte un valeur aux variables (ici la liste des films et séries par exemple)
   ngOnInit(){
 
     this.isdisplayInfoFilm = false;
@@ -103,7 +113,7 @@ export class Tab3Page implements OnInit{
     this.isdisplayInfoSerie = false;
   }
 
-  //Supprime le film numéro "filmID" de la liste des films 
+  //Supprime le film numéro "filmID" de la liste des films
   addFilmToWatch(filmID) {
     this.isdisplayInfoFilm = false;
     this.listeFilms.splice(filmID,1);
@@ -116,7 +126,7 @@ export class Tab3Page implements OnInit{
     }
   }
 
-  //Supprime la série numéro "serieID" de la liste des séries 
+  //Supprime la série numéro "serieID" de la liste des séries
   addSerieToWatch(serieID) {
     this.isdisplayInfoSerie = false;
     this.listeSeries.splice(serieID,1);
@@ -127,6 +137,13 @@ export class Tab3Page implements OnInit{
         this.listeSeries[i].id = i;
       }
     }
+  }
+
+  searchChanged() {
+    // Call our service function which returns an Observable
+    this.results = this.movieService.searchData(this.searchTerm, this.type);
+    console.log(this.type);
+
   }
 
 }

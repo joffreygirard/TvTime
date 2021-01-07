@@ -6,96 +6,33 @@
   </ion-toolbar>
 </ion-header>
 
+<ion-content>
 
-<ion-content *ngIf="!isdisplayInfoFilm && !isdisplayInfoSerie" [fullscreen]="true">
+  <ion-searchbar [(ngModel)]="searchTerm" (ionChange)="searchChanged($event)"></ion-searchbar>
 
-   <!-- Affiche la barre de recherceh -->
-  <ion-searchbar></ion-searchbar>
+  <ion-item>
+    <ion-label>Select Searchtype</ion-label>
+    <ion-select [(ngModel)]="type" (ionChange)="searchChanged($event)">
+      <ion-select-option value="multi">All</ion-select-option>
+      <ion-select-option value="movie">Movie</ion-select-option>
+      <ion-select-option value="tv">Series</ion-select-option>
+    </ion-select>
+  </ion-item>
 
-  <h1>Films</h1>
-  <!-- Affiche tous les films -->
-  <div *ngFor="let film of listeFilms">
-    <ion-item (click)="displayInfoFilm(film.id)">
-      <ion-label>
-          <img src="{{film.source}}" />
-      </ion-label>
+  <ion-list>
+    <ion-item button *ngFor="let item of (results | async)" [routerLink]="['/', 'movies', item.imdbID]">
+      <ion-item (click)="displayInfoFilm(item.id)">
+        <ion-label>
+            <img [src]="'https://image.tmdb.org/t/p/w300/'+item.backdrop_path" *ngIf="item.backdrop_path != 'N/A'" />
+        </ion-label>
+      </ion-item>
+
+      <ion-icon slot="end" *ngIf="item.Type == 'movie'" name="videocam"></ion-icon>
+      <ion-icon slot="end" *ngIf="item.Type == 'series'" name="tv"></ion-icon>
+      <ion-icon slot="end" *ngIf="item.Type == 'game'" name="logo-game-controller-b"></ion-icon>
+
     </ion-item>
-  </div>
 
-  <h1>Séries</h1>
-  <!-- Affiche toutes les séries -->
-  <div *ngFor="let serie of listeSeries">
-    <ion-item (click)="displayInfoSerie(serie.id)">
-      <ion-label>
-          <img src="{{serie.source}}" />
-      </ion-label>
-    </ion-item>
-  </div>
-  
+  </ion-list>
+
 </ion-content>
-
-<ion-content *ngIf="isdisplayInfoFilm" [fullscreen]="true">
-
-  <div *ngFor="let film of listeFilms">
-    <!-- Affichage des détails du film currentFilmToDisplay (celui qui est cliqué par l'utilisateur) -->
-    <div *ngIf="currentFilmToDisplay === film.id">
-      <ion-card>
-    
-        <img src="{{film.source}}" />
-        <ion-card-header>
-          <ion-card-title>{{film.titre}}</ion-card-title>
-          <ion-card-subtitle>{{film.date}} ‧ {{film.duree}} ‧ {{film.type}}</ion-card-subtitle>
-        </ion-card-header>
-  
-        <ion-card-content>
-          {{film.synopsis}}
-        </ion-card-content>
-
-        <div *ngFor="let acteur of film.acteurs">
-          <ul>
-            <li>{{acteur}}</li>
-          </ul>
-        </div>
-        
-      </ion-card>
-      <ion-button (click)="addFilmToWatch(film.id)" color="success" shape="round" expand="full">Ajouter à ma liste</ion-button>
-      <ion-button (click)="undisplayInfoFilm()" color="danger" shape="round" expand="full">Retour</ion-button>
-
-    </div>
-  </div> 
-</ion-content>
-
-
-
-<ion-content *ngIf="isdisplayInfoSerie" [fullscreen]="true">
-
-  <div *ngFor="let serie of listeSeries">
-    <!-- Affichage des détails de la série currentSerieToDisplay (celle qui est cliqué par l'utilisateur) -->
-    <div *ngIf="currentSerieToDisplay === serie.id">
-      <ion-card >
-      
-        <img src="{{serie.source}}" />
-        <ion-card-header>
-          <ion-card-title>{{serie.titre}}</ion-card-title>
-          <ion-card-subtitle>{{serie.date}} ‧ {{serie.duree}} ‧ {{serie.type}}</ion-card-subtitle>
-        </ion-card-header>
-
-        <ion-card-content>
-          {{serie.synopsis}}
-        </ion-card-content>
-
-        <div *ngFor="let acteur of serie.acteurs">
-          <ul>
-            <li>{{acteur}}</li>
-          </ul>
-        </div>
-
-      </ion-card>
-      <ion-button (click)="addSerieToWatch(serie.id)" color="success" shape="round" expand="full">Ajouter à ma liste</ion-button>
-      <ion-button (click)="undisplayInfoSerie()" color="danger" shape="round" expand="full">Retour</ion-button>
-
-    </div>
-  </div>  
-</ion-content>
-
-
