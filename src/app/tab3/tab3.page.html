@@ -6,7 +6,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content *ngIf="!isdisplayInfoFilm" [fullscreen]="true">
 
   <ion-searchbar [(ngModel)]="searchTerm" (ionChange)="searchChanged($event)"></ion-searchbar>
 
@@ -19,20 +19,49 @@
     </ion-select>
   </ion-item>
 
-  <ion-list>
-    <ion-item button *ngFor="let item of (results | async)" [routerLink]="['/', 'movies', item.imdbID]">
+ 
+
+    <div button *ngFor="let item of (results | async)" [routerLink]="['/', 'movies', item.imdbID]">
+
+      <h5>{{item.title}}</h5>
       <ion-item (click)="displayInfoFilm(item.id)">
         <ion-label>
             <img [src]="'https://image.tmdb.org/t/p/w300/'+item.backdrop_path" *ngIf="item.backdrop_path != 'N/A'" />
         </ion-label>
       </ion-item>
+      
+    </div>
 
-      <ion-icon slot="end" *ngIf="item.Type == 'movie'" name="videocam"></ion-icon>
-      <ion-icon slot="end" *ngIf="item.Type == 'series'" name="tv"></ion-icon>
-      <ion-icon slot="end" *ngIf="item.Type == 'game'" name="logo-game-controller-b"></ion-icon>
 
-    </ion-item>
+</ion-content>
 
-  </ion-list>
+<ion-content *ngIf="isdisplayInfoFilm" [fullscreen]="true">
 
+  <div *ngFor="let item of (results | async)" [routerLink]="['/', 'movies', item.imdbID]">
+    <!-- Affichage des détails du film currentFilmToDisplay (celui qui est cliqué par l'utilisateur) -->
+    <div *ngIf="currentFilmToDisplay === item.id">
+      <ion-card>
+
+        <img [src]="'https://image.tmdb.org/t/p/w300/'+item.backdrop_path" *ngIf="item.backdrop_path != 'N/A'" />
+        <ion-card-header>
+          <ion-card-title>{{item.title}}</ion-card-title>
+          <ion-card-subtitle>{{item.popularity}} ‧ {{item.release_date}} ‧ {{item.video}}</ion-card-subtitle>
+        </ion-card-header>
+
+        <ion-card-content>
+
+          <div *ngFor="let genres of item.genre_ids">
+            <ul>
+              <li>{{genres}}</li>
+            </ul>
+          </div>
+
+        </ion-card-content>
+
+      </ion-card>
+      <ion-button (click)="addFilmToWatch(item.id)" color="success" shape="round" expand="full">Ajouter à ma liste</ion-button>
+      <ion-button (click)="undisplayInfoFilm()" color="danger" shape="round" expand="full">Retour</ion-button>
+
+    </div>
+  </div>
 </ion-content>
