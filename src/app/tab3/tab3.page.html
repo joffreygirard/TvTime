@@ -13,9 +13,9 @@
   <ion-item>
     <ion-label>Select Searchtype</ion-label>
     <ion-select [(ngModel)]="type" (ionChange)="searchChanged($event)">
-      <ion-select-option value="multi">All</ion-select-option>
-      <ion-select-option value="movie">Movie</ion-select-option>
-      <ion-select-option value="tv">Series</ion-select-option>
+      <ion-select-option value="multi">Tous</ion-select-option>
+      <ion-select-option value="movie">Film</ion-select-option>
+      <ion-select-option value="tv">Séries</ion-select-option>
     </ion-select>
   </ion-item>
 
@@ -23,13 +23,28 @@
 
     <div button *ngFor="let item of (results | async)" [routerLink]="['/', 'movies', item.imdbID]">
 
-      <h5>{{item.title}}</h5>
-      <ion-item (click)="displayInfoFilm(item.id)">
-        <ion-label>
-            <img [src]="'https://image.tmdb.org/t/p/w300/'+item.backdrop_path" *ngIf="item.backdrop_path != 'N/A'" />
-        </ion-label>
-      </ion-item>
-      
+      <div *ngIf="item.title">
+
+        <h5>{{item.title}}</h5>
+        <ion-item (click)="displayInfoFilm(item.id)">
+          <ion-label>
+              <img [src]="'https://image.tmdb.org/t/p/w300/'+item.poster_path" *ngIf="item.poster_path != 'N/A'" />
+          </ion-label>
+        </ion-item>
+
+      </div>
+
+      <div *ngIf="item.name">
+
+        <h5>{{item.name}}</h5>
+        <ion-item (click)="displayInfoSerie(item.id)">
+          <ion-label>
+              <img [src]="'https://image.tmdb.org/t/p/w300/'+item.poster_path" *ngIf="item.poster_path != 'N/A'" />
+          </ion-label>
+        </ion-item>
+
+      </div>
+
     </div>
 
 
@@ -37,7 +52,7 @@
 
 <ion-content *ngIf="isdisplayInfoFilm" [fullscreen]="true">
 
-  <div *ngFor="let item of (results | async)" [routerLink]="['/', 'movies', item.imdbID]">
+  <div *ngFor="let item of (results | async)">
     <!-- Affichage des détails du film currentFilmToDisplay (celui qui est cliqué par l'utilisateur) -->
     <div *ngIf="currentFilmToDisplay === item.id">
       <ion-card>
@@ -45,22 +60,45 @@
         <img [src]="'https://image.tmdb.org/t/p/w300/'+item.backdrop_path" *ngIf="item.backdrop_path != 'N/A'" />
         <ion-card-header>
           <ion-card-title>{{item.title}}</ion-card-title>
-          <ion-card-subtitle>{{item.popularity}} ‧ {{item.release_date}} ‧ {{item.video}}</ion-card-subtitle>
+          <ion-card-subtitle>{{item.release_date}} ‧ {{item.popularity}} <ion-icon name="star"></ion-icon> ‧ {{item.original_language}}</ion-card-subtitle>
         </ion-card-header>
 
         <ion-card-content>
 
-          <div *ngFor="let genres of item.genre_ids">
-            <ul>
-              <li>{{genres}}</li>
-            </ul>
-          </div>
+          {{item.overview}}
 
         </ion-card-content>
 
       </ion-card>
       <ion-button (click)="addFilmToWatch(item.id)" color="success" shape="round" expand="full">Ajouter à ma liste</ion-button>
       <ion-button (click)="undisplayInfoFilm()" color="danger" shape="round" expand="full">Retour</ion-button>
+
+    </div>
+  </div>
+</ion-content>
+
+<ion-content *ngIf="isdisplayInfoSerie" [fullscreen]="true">
+
+  <div *ngFor="let item of (results | async)">
+    <!-- Affichage des détails du film currentFilmToDisplay (celui qui est cliqué par l'utilisateur) -->
+    <div *ngIf="currentSerieToDisplay === item.id">
+      <ion-card>
+
+        <img [src]="'https://image.tmdb.org/t/p/w300/'+item.backdrop_path" *ngIf="item.backdrop_path != 'N/A'" />
+        <ion-card-header>
+          <ion-card-title>{{item.name}}</ion-card-title>
+          <ion-card-subtitle>{{item.first_air_date}} ‧ {{item.vote_average}} <ion-icon name="star"></ion-icon> ‧ {{item.original_language}}</ion-card-subtitle>
+        </ion-card-header>
+
+        <ion-card-content>
+
+          {{item.overview}}
+
+        </ion-card-content>
+
+      </ion-card>
+      <ion-button (click)="addSerieToWatch(item.id)" color="success" shape="round" expand="full">Ajouter à ma liste</ion-button>
+      <ion-button (click)="undisplayInfoSerie()" color="danger" shape="round" expand="full">Retour</ion-button>
 
     </div>
   </div>

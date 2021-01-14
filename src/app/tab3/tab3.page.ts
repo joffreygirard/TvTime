@@ -40,7 +40,7 @@ export class Tab3Page implements OnInit{
     this.isdisplayInfoFilm = false;
     this.isdisplayInfoSerie = false;
 
-    this.listeFilms[0] = {
+    /*this.listeFilms[0] = {
       id: 0,
       titre: "Spider-Man: Homecoming",
       date: "28 juin 2017",
@@ -88,7 +88,7 @@ export class Tab3Page implements OnInit{
       acteurs: ["Eliza Taylor","Bob Morley","Marie Avgerop","Lindsey Morgan","Richard Harmon"],
       note: "4,7",
       synopsis: "Après une apocalypse nucléaire, les 318 survivants se réfugient dans des stations spatiales et parviennent à y vivre et à se reproduire, atteignant le nombre de 4000 ; 97 ans plus tard, une centaine de jeunes délinquants redescendent sur Terre.",
-    }
+    }*/
   }
 
   //Afficher les détail d'un film passé en paramètre
@@ -103,9 +103,9 @@ export class Tab3Page implements OnInit{
   }
 
   //Afficher les détail d'une série passé en paramètre
-  displayInfoSerie(idFilm) {
+  displayInfoSerie(idSerie) {
     this.isdisplayInfoSerie = true;
-    this.currentSerieToDisplay = idFilm;
+    this.currentSerieToDisplay = idSerie;
   }
 
   //Fermer les détail de la série
@@ -113,30 +113,18 @@ export class Tab3Page implements OnInit{
     this.isdisplayInfoSerie = false;
   }
 
-  //Supprime le film numéro "filmID" de la liste des films
+  //Ajoute la série numéro "serieID" de la liste des films de TAB2
   addFilmToWatch(filmID) {
     this.isdisplayInfoFilm = false;
-    this.listeFilms.splice(filmID,1);
+    
 
-    //Update l'id du film en fonction de sa position dans le tableau
-    for (let i = 0; i < this.listeFilms.length; i++) {
-      if (this.listeFilms[i].id != i) {
-        this.listeFilms[i].id = i;
-      }
-    }
+    
   }
 
-  //Supprime la série numéro "serieID" de la liste des séries
+  //Ajoute la série numéro "serieID" de la liste des séries de TAB1
   addSerieToWatch(serieID) {
     this.isdisplayInfoSerie = false;
-    this.listeSeries.splice(serieID,1);
-
-    //Update l'id de la série en fonction de sa position dans le tableau
-    for (let i = 0; i < this.listeSeries.length; i++) {
-      if (this.listeSeries[i].id != i) {
-        this.listeSeries[i].id = i;
-      }
-    }
+    
   }
 
   searchChanged() {
