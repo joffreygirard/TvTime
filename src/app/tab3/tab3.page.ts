@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Tab2Page } from '../tab2/tab2.page';
-import { MovieService, SearchType } from '../services/movie.service';
+import { MovieService } from '../services/movie.service';
 import { Observable } from 'rxjs';
 
 @Component({
