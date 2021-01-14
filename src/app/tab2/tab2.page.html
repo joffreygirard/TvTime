@@ -26,6 +26,7 @@
           <ion-col size="4" *ngFor="let film of listeFilmsAVoir">
             <img  src="{{film.source}}" (click)="displayInfo(film.id)" />
           </ion-col>
+          <h5 *ngIf="tabListeFilms != null">Listes des films (par l'id) {{tabListeFilms}}</h5>
         </ion-row>
     </ion-card>
 

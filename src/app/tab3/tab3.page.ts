@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Tab2Page } from '../tab2/tab2.page';
 import { MovieService } from '../services/movie.service';
+import { TableauxService } from '../service_tableaux/tableaux.service';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -9,9 +10,6 @@ import { Observable } from 'rxjs';
   styleUrls: ['tab3.page.scss']
 })
 export class Tab3Page implements OnInit{
-
-  // TODO
-  tab2= new Tab2Page();
 
   // atributs lié aux films
   isdisplayInfoFilm: boolean;
@@ -32,7 +30,7 @@ export class Tab3Page implements OnInit{
    * Constructor of our first page
    * @param movieService The movie Service to get data
    */
-  constructor(private movieService: MovieService) { }
+  constructor(private movieService: MovieService,private service: TableauxService) { }
 
   // méthode lancee automatiquement qui affecte un valeur aux variables (ici la liste des films et séries par exemple)
   ngOnInit(){
@@ -116,7 +114,7 @@ export class Tab3Page implements OnInit{
   //Ajoute la série numéro "serieID" de la liste des films de TAB2
   addFilmToWatch(filmID) {
     this.isdisplayInfoFilm = false;
-    
+    this.service.addFilmsId(filmID);
   }
 
   //Ajoute la série numéro "serieID" de la liste des séries de TAB1

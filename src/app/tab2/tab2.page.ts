@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { TableauxService } from '../service_tableaux/tableaux.service';
 
 @Component({
   selector: 'app-tab2',
@@ -12,6 +13,10 @@ export class Tab2Page {
   isdisplayInfo: boolean;
   currentFilmToDisplay: number;
   tabFilms:string;
+  
+// Liste des films ajouter depuis la page de recherche (récupère juste l'id du film)
+  tabListeFilms: any[];
+
 
   //lorsque l'on change d'onglet
   segmentChanged(ev: any) {
@@ -19,8 +24,10 @@ export class Tab2Page {
    console.log('Segment changed', ev);
  }
 
-  constructor() {
-
+  constructor(private service: TableauxService) {
+    // récupère le tableau des films à avoir
+    this.tabListeFilms = this.service.getFilmsId();
+    console.log(this.tabListeFilms);
   }
 
 
