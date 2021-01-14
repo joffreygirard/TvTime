@@ -22,9 +22,10 @@
     <!-- Onglet a voir -->
     <ion-card *ngSwitchCase="'aVoir'">
         <ion-row>
+
           <!-- Affiche tous les films à voir -->
-          <ion-col size="4" *ngFor="let film of listeFilmsAVoir">
-            <img  src="{{film.source}}" (click)="displayInfo(film.id)" />
+          <ion-col size="4" *ngFor="let film of (results)">
+            <img [src]="'https://image.tmdb.org/t/p/w300'+film.poster_path" *ngIf="film.poster_path != 'N/A'" />
           </ion-col>
         </ion-row>
     </ion-card>

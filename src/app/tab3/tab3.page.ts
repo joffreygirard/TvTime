@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Tab2Page } from '../tab2/tab2.page';
 import { MovieService } from '../services/movie.service';
 import { Observable } from 'rxjs';
 
@@ -9,10 +8,6 @@ import { Observable } from 'rxjs';
   styleUrls: ['tab3.page.scss']
 })
 export class Tab3Page implements OnInit{
-
-  // TODO
-  tab2= new Tab2Page();
-
   // atributs lié aux films
   isdisplayInfoFilm: boolean;
   listeFilms = [];
@@ -143,7 +138,7 @@ export class Tab3Page implements OnInit{
     // Call our service function which returns an Observable
     this.results = this.movieService.searchData(this.searchTerm, this.type);
     console.log(this.type);
-
+    console.log(this.results);
   }
 
 }
