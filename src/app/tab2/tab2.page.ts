@@ -10,7 +10,7 @@ import { Observable ,Subject} from 'rxjs';
 
 export class Tab2Page {
   //Initialisation variables
-  listeFilmsAVoir = [436622, 436621, 436620, 436651, 436648];
+  listeFilmsAVoir = [436622, 436621, 436620, 436651, 436648, 526896];
   isdisplayInfo: boolean;
   currentFilmToDisplay: number;
   tabFilms:string;
@@ -18,6 +18,9 @@ export class Tab2Page {
  // Search
  results= [];
  searchTerm: string = '';
+
+   today = new Date().getTime();
+
  /**
   * Constructor of our first page
   * @param movieService The movie Service to get data
@@ -26,6 +29,8 @@ export class Tab2Page {
 
   ngOnInit(){
     this.tabFilms = 'aVoir';
+    console.log(this.today);
+
 
     let movieServiceAPI = this.movieService;
     let filmResults = this.results;
@@ -39,6 +44,16 @@ export class Tab2Page {
 
 
   }
+
+  getDateTimeStamp(movieDate){
+    //console.log("Date avant parse : "+movieDate);
+    movieDate = movieDate.split("-");
+    var newDate = new Date( movieDate[0], movieDate[1] - 1, movieDate[2]);
+    //console.log("Ma nouvelle date : " + newDate);
+
+    return newDate;
+  }
+
 
   //lorsque l'on change d'onglet
   segmentChanged(ev: any) {
