@@ -117,8 +117,6 @@ export class Tab3Page implements OnInit{
   addFilmToWatch(filmID) {
     this.isdisplayInfoFilm = false;
     
-
-    
   }
 
   //Ajoute la série numéro "serieID" de la liste des séries de TAB1

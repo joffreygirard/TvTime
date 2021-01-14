@@ -60,7 +60,7 @@
         <img [src]="'https://image.tmdb.org/t/p/w300/'+item.backdrop_path" *ngIf="item.backdrop_path != 'N/A'" />
         <ion-card-header>
           <ion-card-title>{{item.title}}</ion-card-title>
-          <ion-card-subtitle>{{item.release_date}} ‧ {{item.popularity}} <ion-icon name="star"></ion-icon> ‧ {{item.original_language}}</ion-card-subtitle>
+          <ion-card-subtitle>{{item.release_date}} ‧ {{item.vote_average}} <ion-icon name="star"></ion-icon> ‧ {{item.original_language}}</ion-card-subtitle>
         </ion-card-header>
 
         <ion-card-content>
