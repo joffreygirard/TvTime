@@ -3,8 +3,8 @@ import {Injectable} from '@angular/core';
 @Injectable({
     providedIn: 'root'
   })
-export class TableauxService { 
-  
+export class TableauxService {
+
   listeFilmsId = [];
   listeSeriesId = [];
 
@@ -20,7 +20,7 @@ export class TableauxService {
       this.listeFilmsId.push(theIdFilm);
 
   }
-  
+
   public getFilmsId() {
     return this.listeFilmsId;
   }
@@ -29,12 +29,10 @@ export class TableauxService {
 
     for (let index = 0; index < this.listeFilmsId.length; index++) {
 
-      if (this.listeFilmsId[index] == theIdFilm) {
+      if (this.listeFilmsId[index] == theIdFilm)
         this.listeFilmsId.splice(index, 1);
-      }
-      
+
     }
-     
   }
 
   public addSeriesId(theIdSerie: number): void {
@@ -52,11 +50,11 @@ export class TableauxService {
 
     for (let index = 0; index < this.listeSeriesId.length; index++) {
 
-      if (this.listeSeriesId[index] == theIdSerie) {
+      if (this.listeSeriesId[index] == theIdSerie)
         this.listeSeriesId.splice(index, 1);
-      }
       
     }
-     
   }
+  
 }
+
