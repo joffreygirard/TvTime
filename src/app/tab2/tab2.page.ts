@@ -10,56 +10,61 @@ import { Observable ,Subject} from 'rxjs';
 })
 
 export class Tab2Page {
-  //Initialisation variables
-  listeFilmsAVoir = [436622, 436621, 436620, 436651, 436648, 526896];
+  // Initialisation variables
+  listeFilmsAVoirId = []; // Get Id from tableaux.services.ts
+  listeFilmsAVoirIdTmp = []; //
+  results= [];
+
+  // Film details variables
   isdisplayInfo: boolean;
   currentFilmToDisplay: number;
   tabFilms:string;
-  
-// Liste des films ajouter depuis la page de recherche (récupère juste l'id du film)
-  tabListeFilms: any[];
+  today = new Date().getTime();
 
 
- // Search
- results= [];
- searchTerm: string = '';
-
-   today = new Date().getTime();
-
- /**
+  /**
   * Constructor of our first page
   * @param movieService The movie Service to get data
   */
- constructor(private movieService: MovieService,private service: TableauxService) { 
-   // récupère le tableau des films à avoir
-   this.tabListeFilms = this.service.getFilmsId();
-   console.log(this.tabListeFilms);
- }
-
-  ngOnInit(){
-    this.tabFilms = 'aVoir';
-    console.log(this.today);
-
-
-    let movieServiceAPI = this.movieService;
-    let filmResults = this.results;
-
-    // this.listeFilmsAVoir.forEach(function (value) {
-    //     movieServiceAPI.getMovieData(value)
-    //     .subscribe(data => filmResults.push(data));
-    // });
-
-    console.log(this.results);
-
+  constructor(private movieService: MovieService,private service: TableauxService) {
 
   }
 
+  ngOnInit(){
+    this.tabFilms = 'aVoir';
+  }
+
+  // Function : Lorsque l'on ouvre la tab
+  ionViewWillEnter(){
+    // Récupère le tableau des films à avoir
+    this.listeFilmsAVoirIdTmp = this.service.getFilmsId();
+    // Trie
+    let listeFilmsAVoirIdAdd = [];
+    for (let index = 0; index < this.listeFilmsAVoirIdTmp.length; index++) {
+      const theId = this.listeFilmsAVoirIdTmp[index];
+      if (!this.listeFilmsAVoirId.includes(theId)) {​​​​
+        this.listeFilmsAVoirId.push(theId);
+        listeFilmsAVoirIdAdd.push(theId);
+      }​​​​
+    }
+
+    // Ajoute
+    let movieServiceAPI = this.movieService;
+    let filmResults = this.results;
+
+    listeFilmsAVoirIdAdd.forEach(function (value) {
+        movieServiceAPI.getMovieData(value)
+        .subscribe(data => filmResults.push(data));
+    });
+
+    console.log(filmResults);
+
+  }
+
+  // Funcion : convertie date actuelle au format de l'API
   getDateTimeStamp(movieDate){
-    //console.log("Date avant parse : "+movieDate);
     movieDate = movieDate.split("-");
     var newDate = new Date( movieDate[0], movieDate[1] - 1, movieDate[2]);
-    //console.log("Ma nouvelle date : " + newDate);
-
     return newDate;
   }
 

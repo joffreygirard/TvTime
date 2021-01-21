@@ -21,6 +21,7 @@
   <div [ngSwitch]="tabFilms" *ngIf="!isdisplayInfo">
     <!-- Onglet a voir -->
     <ion-card *ngSwitchCase="'aVoir'">
+
         <ion-row>
           <ng-template ngFor let-film [ngForOf]="results">
           <!-- Affiche tous les films à voir -->
