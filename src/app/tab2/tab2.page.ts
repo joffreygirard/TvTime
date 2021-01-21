@@ -16,7 +16,7 @@ export class Tab2Page {
   currentFilmToDisplay: number;
   tabFilms:string;
   
-// Liste des films ajouter depuis la page de recherche (récupère juste l'id du film)
+  // Liste des films ajouter depuis la page de recherche (récupère juste l'id du film)
   tabListeFilms: any[];
 
 

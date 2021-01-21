@@ -70,7 +70,19 @@
         </ion-card-content>
 
       </ion-card>
-      <ion-button (click)="addFilmToWatch(item.id)" color="success" shape="round" expand="full">Ajouter à ma liste</ion-button>
+
+      <div *ngFor="let films of tabFilms">
+        <ion-button *ngIf="films === item.id" (click)="removeFilmToWatch(item.id)" color="primary" shape="round" expand="full">Retirer de ma liste</ion-button>
+      </div> 
+      <div *ngIf="tabFilms.length === 0">
+        <ion-button (click)="addFilmToWatch(item.id)" color="success" shape="round" expand="full">Ajouter à ma liste</ion-button>
+      </div>
+      <div *ngIf="tabFilms.length !== 0">
+        <div *ngFor="let films of tabFilms">
+          <ion-button *ngIf="films !== item.id" (click)="addFilmToWatch(item.id)" color="success" shape="round" expand="full">Ajouter à ma liste</ion-button>
+        </div>
+      </div>
+
       <ion-button (click)="undisplayInfoFilm()" color="danger" shape="round" expand="full">Retour</ion-button>
 
     </div>
@@ -97,7 +109,19 @@
         </ion-card-content>
 
       </ion-card>
-      <ion-button (click)="addSerieToWatch(item.id)" color="success" shape="round" expand="full">Ajouter à ma liste</ion-button>
+
+      <div *ngFor="let series of tabSeries">
+        <ion-button *ngIf="series === item.id" (click)="removeSerieToWatch(item.id)" color="primary" shape="round" expand="full">Retirer de ma liste</ion-button>
+      </div> 
+      <div *ngIf="tabSeries.length === 0">
+          <ion-button (click)="addSerieToWatch(item.id)" color="success" shape="round" expand="full">Ajouter à ma liste</ion-button>
+      </div>
+      <div *ngIf="tabSeries.length !== 0">
+        <div *ngFor="let series of tabSeries">
+          <ion-button *ngIf="series !== item.id" (click)="addSerieToWatch(item.id)" color="success" shape="round" expand="full">Ajouter à ma liste</ion-button>
+        </div>
+      </div>
+      
       <ion-button (click)="undisplayInfoSerie()" color="danger" shape="round" expand="full">Retour</ion-button>
 
     </div>
