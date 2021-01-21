@@ -127,7 +127,7 @@ export class Tab3Page implements OnInit{
     // Call our service function which returns an Observable
     this.results = this.movieService.searchData(this.searchTerm, this.type);
     console.log(this.type);
-
+    console.log(this.results);
   }
 
 }

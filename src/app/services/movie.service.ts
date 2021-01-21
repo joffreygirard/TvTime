@@ -8,7 +8,7 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class MovieService {
-  url = 'https://api.themoviedb.org/3/search/';
+  url = 'https://api.themoviedb.org/3/';
   apiKey = '6230dbe84810f7836a642975af142575';
 
   /**
@@ -26,12 +26,24 @@ export class MovieService {
   * @returns Observable with the search results
   */
   searchData(title: string, type: string): Observable<string[]> {
-    return this.http.get(`${this.url}${type}?api_key=${this.apiKey}&language=fr&query=${encodeURI(title)}`).pipe(
+    return this.http.get(`${this.url}search/${type}?api_key=${this.apiKey}&language=fr&query=${encodeURI(title)}`).pipe(
       map(results => results['results'])
+      //https://api.themoviedb.org/3/search/movie?api_key=6230dbe84810f7836a642975af142575&language=fr&query=
     );
   }
-}
 
+  /**
+  * Get data from the OmdbApi
+  * map the result to return only the results that we need
+  *
+  * @param {string} idMovie Search Term
+  * @returns Observable with the search results
+  */
+  getMovieData(idMovie: string) {
+    return this.http.get(`${this.url}movie/${idMovie}?api_key=${this.apiKey}&language=fr`)
+  }
+
+}
 
 /* React native
 export function getImageFromApi(name) {

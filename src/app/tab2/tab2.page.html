@@ -22,22 +22,26 @@
     <!-- Onglet a voir -->
     <ion-card *ngSwitchCase="'aVoir'">
         <ion-row>
+          <ng-template ngFor let-film [ngForOf]="results">
           <!-- Affiche tous les films à voir -->
-          <ion-col size="4" *ngFor="let film of listeFilmsAVoir">
-            <img  src="{{film.source}}" (click)="displayInfo(film.id)" />
+          <ion-col size="4" *ngIf="getDateTimeStamp(film.release_date) < today">
+            <img [src]="'https://image.tmdb.org/t/p/w300'+film.poster_path" *ngIf="film.poster_path != 'N/A' " />
           </ion-col>
-          <h5 *ngIf="tabListeFilms != null">Listes des films (par l'id) {{tabListeFilms}}</h5>
+            <h5 *ngIf="tabListeFilms != null">Listes des films (par l'id) {{tabListeFilms}}</h5>
+          </ng-template>
         </ion-row>
     </ion-card>
 
     <!-- Onglet a venir -->
     <ion-card *ngSwitchCase="'aVenir'">
-      <ion-card-header>
-        Films a venir...
-      </ion-card-header>
-      <ion-card-content>
-
-      </ion-card-content>
+      <ion-row>
+        <ng-template ngFor let-film [ngForOf]="results">
+        <!-- Affiche tous les films à voir -->
+        <ion-col size="4" *ngIf="getDateTimeStamp(film.release_date) > today">
+          <img [src]="'https://image.tmdb.org/t/p/w300'+film.poster_path" *ngIf="film.poster_path != 'N/A' " />
+        </ion-col>
+        </ng-template>
+      </ion-row>
     </ion-card>
   </div>
 </ion-content>
