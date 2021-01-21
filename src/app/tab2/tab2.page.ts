@@ -30,15 +30,13 @@ export class Tab2Page {
   * Constructor of our first page
   * @param movieService The movie Service to get data
   */
- constructor(private movieService: MovieService,private service: TableauxService) { 
-   // récupère le tableau des films à avoir
-   this.tabListeFilms = this.service.getFilmsId();
-   console.log(this.tabListeFilms);
- }
+  constructor(private movieService: MovieService,private service: TableauxService) { 
+    
+  }
 
   ngOnInit(){
     this.tabFilms = 'aVoir';
-    console.log(this.today);
+    //console.log(this.today);
 
 
     let movieServiceAPI = this.movieService;
@@ -49,9 +47,15 @@ export class Tab2Page {
     //     .subscribe(data => filmResults.push(data));
     // });
 
-    console.log(this.results);
+    //console.log(this.results);
 
 
+  }
+
+  ionViewWillEnter(){
+    // récupère le tableau des films à avoir
+    this.tabListeFilms = this.service.getFilmsId();
+    console.log(this.tabListeFilms);
   }
 
   getDateTimeStamp(movieDate){
