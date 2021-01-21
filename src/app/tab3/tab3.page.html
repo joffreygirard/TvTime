@@ -6,7 +6,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content *ngIf="!isdisplayInfoFilm" [fullscreen]="true">
+<ion-content *ngIf="!isdisplayInfoFilm && !isdisplayInfoSerie" [fullscreen]="true">
 
   <ion-searchbar [(ngModel)]="searchTerm" (ionChange)="searchChanged($event)"></ion-searchbar>
 
@@ -21,7 +21,7 @@
 
  
 
-    <div button *ngFor="let item of (results | async)" [routerLink]="['/', 'movies', item.imdbID]">
+    <div button *ngFor="let item of (results | async)">
 
       <div *ngIf="item.title">
 
