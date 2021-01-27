@@ -8,8 +8,18 @@
 
 <ion-content *ngIf="!isdisplayInfoFilm && !isdisplayInfoSerie" [fullscreen]="true">
 
-  <ion-searchbar [(ngModel)]="searchTerm" (ionChange)="searchChanged($event)"></ion-searchbar>
+  <ion-searchbar placeholder="Rechercher" animated [(ngModel)]="searchTerm" (ionChange)="searchChanged($event)"></ion-searchbar>
 
+  <ion-segment [(ngModel)]="type" (ionChange)="searchChanged($event)" value="film">
+    <ion-segment-button value="movie">
+      <ion-label>Film</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="tv">
+      <ion-label>Série</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <!--
   <ion-item>
     <ion-label>Select Searchtype</ion-label>
     <ion-select [(ngModel)]="type" (ionChange)="searchChanged($event)">
@@ -17,7 +27,7 @@
       <ion-select-option value="movie">Film</ion-select-option>
       <ion-select-option value="tv">Séries</ion-select-option>
     </ion-select>
-  </ion-item>
+  </ion-item>-->
 
  
 
