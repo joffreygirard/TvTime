@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  ModalController,
-  NavParams
-} from '@ionic/angular';
+import {ModalController,} from '@ionic/angular';
+import {TableauxService} from "../service_tableaux/tableaux.service";
 
 @Component({
   selector: 'app-modal-page',
@@ -16,18 +14,20 @@ export class ModalPagePage implements OnInit {
 
   constructor(
       private modalController: ModalController,
-      private navParams: NavParams
+      private service: TableauxService,
   ) { }
 
-  ngOnInit() {
-    this.modelId = this.navParams.data.paramID;
-    this.modalTitle = this.navParams.data.paramTitle;
+  ngOnInit() {}
+
+  /* Retirer une série de la liste */
+  removeSerieToWatch(serieID) {
+    this.service.removeSeriesId(serieID);
+    this.closeModal(true);
   }
 
   /* Fermer la modal */
-  async closeModal() {
-    const onClosedData: string = "Wrapped Up!";
-    await this.modalController.dismiss(onClosedData);
+  async closeModal(reload = false) {
+    await this.modalController.dismiss(reload);
   }
 
 }

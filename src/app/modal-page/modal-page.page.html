@@ -1,8 +1,4 @@
-<ion-header>
-    <ion-toolbar>
-        <ion-title class="ion-text-center"><ion-icon name="close-outline" (click)="closeModal()" style="zoom: 3.0;"></ion-icon></ion-title>
-    </ion-toolbar>
-</ion-header>
+
 
 <ion-content>
 
@@ -39,6 +35,13 @@
             <ion-col>
                 <p>Sorti le : {{ episode.serie.firstAirDate | date : 'mediumDate' : '' : 'fr' }}</p>
                 <p>{{ episode.serie.voteAverage }} <ion-icon name="star-outline"></ion-icon></p>
+            </ion-col>
+        </ion-row>
+
+        <ion-row>
+            <ion-col>
+                <ion-button (click)="removeSerieToWatch(episode.serie.id)" color="primary" shape="round" expand="full">Retirer de ma liste</ion-button>
+                <ion-button (click)="closeModal()" color="danger" shape="round" expand="full">Retour</ion-button>
             </ion-col>
         </ion-row>
 

@@ -4,6 +4,7 @@ import { ModalController } from '@ionic/angular';
 import { ModalPagePage } from '../modal-page/modal-page.page';
 import { TableauxService } from '../service_tableaux/tableaux.service';
 import { TabsPage } from '../tabs/tabs.page';
+import { ToastController } from '@ionic/angular';
 
 @Component({
     selector: 'app-tab1',
@@ -24,12 +25,14 @@ export class Tab1Page implements OnInit {
      * Constructor of our first page
      * @param movieService The movie Service to get data
      * @param modalController
+     * @param toastController
      * @param service
      * @param tabs
      */
     constructor(
         private movieService: MovieService,
         public modalController: ModalController,
+        public toastController: ToastController,
         private service: TableauxService,
         private tabs: TabsPage
     ) { }
@@ -38,11 +41,9 @@ export class Tab1Page implements OnInit {
     ngOnInit() {
         /* Par défaut on arrive sur l'onglet épisode à voir */
         this.segment = 'aVoir';
-
-        this.getSeries();
     }
 
-    getSeries() {
+    getEpisodes() {
         let thisMovieService = this.movieService;
         let thisEpisodesAVoir = this.episodesAVoir;
         let thisEpisodesAVenir = this.episodesAVenir;
@@ -122,27 +123,50 @@ export class Tab1Page implements OnInit {
     }
 
     ionViewWillEnter(){
+        this.init();
+    }
+
+    /* On initialise les tableaux de séries et d'épisodes */
+    init() {
         // récupère le tableau des films à avoir
         this.tabListeSeries = this.service.getSeriesId();
         console.log(this.tabListeSeries);
         this.tabs.resetSerie();
         this.episodesAVoir = [];
         this.episodesAVenir = [];
-        this.getSeries();
+        this.getEpisodes();
     }
 
-    /* Fonction pour passer l'épisode en "vu" et le suprimer du tableau des épisodes à voir */
+    /* Fonction pour passer l'épisode en "vu" */
     setToSee(episodeIndex) {
         this.episodesAVoir[episodeIndex]["isVu"] = true;
+        this.presentToast("Épisode marqué comme vu");
+    }
+
+    /* Affichage d'un message */
+    async presentToast(message) {
+        const toast = await this.toastController.create({
+            message: message,
+            duration: 2000
+        });
+
+        return await toast.present();
     }
 
     /* Fonction pour ouvrir la modal et voir les détails d'une série et d'un épisode */
     async openModal(episode) {
-        console.log(episode);
         const modal = await this.modalController.create({
             component: ModalPagePage,
             componentProps: {
                 "episode": episode
+            }
+        });
+
+        // On rafraichit la page à la fermeture du modal
+        let this1 = this;
+        modal.onDidDismiss().then(function (reload) {
+            if (reload.data) {
+                this1.init();
             }
         });
 
