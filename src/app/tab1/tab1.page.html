@@ -1,53 +1,109 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Séries
-    </ion-title>
-  </ion-toolbar>
+    <ion-toolbar>
+        <ion-title>
+            Séries
+        </ion-title>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
 
-  <!-- Onglets épisodes à voir et épisodes à venir -->
-  <ion-segment (ionChange)="segmentChanged($event)" value="aVoir">
-    <ion-segment-button value="aVoir">
-      <ion-label>A VOIR</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="aVenir">
-      <ion-label>A VENIR</ion-label>
-    </ion-segment-button>
-  </ion-segment>
+    <!-- Onglets épisodes à voir et épisodes à venir  -->
+    <ion-segment (ionChange)="segmentChanged($event)" value="aVoir">
+        <ion-segment-button value="aVoir">
+            <ion-label>A VOIR</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="aVenir">
+            <ion-label>A VENIR</ion-label>
+        </ion-segment-button>
+    </ion-segment>
 
 
-  <div [ngSwitch]="segment">
+    <div [ngSwitch]="segment">
 
-    <!-- Liste des épisodes à voir -->
-    <div *ngSwitchCase="'aVoir'">
-      <div *ngFor="let episode of episodesAVoir">
+        <!-- Liste des épisodes à voir -->
+        <div *ngSwitchCase="'aVoir'">
 
-        <!-- Informations de l'épisode à voir -->
-        <ion-item>
-          <ion-avatar slot="start">
-            <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
-          </ion-avatar>
-          <ion-label>
-            <h3>{{episode.serieName}}</h3>
-            <ion-item>
-              <ion-label style="font-size: 12px;" >S{{episode.seasonNumber}} E{{episode.episodeNumber}} {{episode.episodeName}}</ion-label>
-              <ion-note slot="end" color="medium" (click)="setToSee(episode)"><ion-icon name="eye-outline"></ion-icon></ion-note>
-            </ion-item>
-            <p></p>
-          </ion-label>
-        </ion-item>
+            <div *ngIf="episodesAVoir.length != 0">
+                <ion-list>
+                <div *ngFor="let episode of episodesAVoir; let i = index">
 
-      </div>
+                    <!-- Informations de l'épisode à voir -->
+                    <div *ngIf="episode.isVu == false">
+                        <ion-item>
+                            <ion-avatar slot="start">
+                                <img [src]="'https://image.tmdb.org/t/p/w300/'+episode.serie.poster" *ngIf="episode.serie.poster != 'N/A'" />
+                            </ion-avatar>
+                            <ion-label>
+                                <h2>
+                                    <ion-chip outline color="dark" (click)="openModal(episode)">
+                                        <ion-label>{{ episode.serie.name }}</ion-label>
+                                        <ion-icon name="chevron-forward-circle-outline"></ion-icon>
+                                    </ion-chip>
+                                </h2>
+                                <h3 style="width: 100%">
+                                    S{{ episode.seasonNumber }} | E{{ episode.episodeNumber }}
+                                    <ion-icon name="eye-outline" class="ion-float-end" style="zoom: 1.5; cursor: pointer;" (click)="setToSee(i)"></ion-icon>
+                                </h3>
+                                <p>{{ episode.episodeName }}</p>
+                            </ion-label>
+                        </ion-item>
+                    </div>
+
+                </div>
+                </ion-list>
+            </div>
+
+            <div *ngIf="episodesAVoir.length == 0">
+                <ion-card>
+                    <ion-card-content>
+                        Aucun épisode à voir pour l'instant
+                    </ion-card-content>
+                </ion-card>
+            </div>
+
+        </div>
+
+
+        <!-- Liste des épisodes à venir -->
+        <div *ngSwitchCase="'aVenir'">
+
+            <div *ngIf="episodesAVenir.length != 0">
+                <ion-list>
+                    <div *ngFor="let episode of episodesAVenir">
+
+                        <!-- Informations de l'épisode à voir -->
+                        <ion-item>
+                            <ion-avatar slot="start">
+                                <img [src]="'https://image.tmdb.org/t/p/w300/'+episode.serie.poster" *ngIf="episode.serie.poster != 'N/A'" />
+                            </ion-avatar>
+                            <ion-label>
+                                <h2>
+                                    <ion-chip outline color="dark" (click)="openModal(episode)">
+                                        <ion-label>{{ episode.serie.name }}</ion-label>
+                                        <ion-icon name="chevron-forward-circle-outline"></ion-icon>
+                                    </ion-chip>
+                                </h2>
+                                <h3>
+                                    S{{ episode.seasonNumber }} | E{{ episode.episodeNumber }}
+                                </h3>
+                                <p>{{ episode.episodeName }}</p>
+                                <p>{{ episode.airDate | date : 'mediumDate' : '' : 'fr' }}</p>
+                            </ion-label>
+                        </ion-item>
+
+                    </div>
+                </ion-list>
+            </div>
+
+            <div *ngIf="episodesAVenir.length == 0">
+                <ion-card>
+                    <ion-card-content>
+                        Aucun épisode à venir pour l'instant
+                    </ion-card-content>
+                </ion-card>
+            </div>
+
+        </div>
     </div>
-
-    <!-- Liste des épisodes à venir -->
-    <ion-card *ngSwitchCase="'aVenir'">
-      <ion-card-content>
-        Aucun épisode à venir pour l'instant
-      </ion-card-content>
-    </ion-card>
-  </div>
 </ion-content>

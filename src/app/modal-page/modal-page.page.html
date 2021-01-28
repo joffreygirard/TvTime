@@ -1,0 +1,49 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title class="ion-text-center"><ion-icon name="close-outline" (click)="closeModal()" style="zoom: 3.0;"></ion-icon></ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+    <img [src]="'https://image.tmdb.org/t/p/w300/'+episode.serie.poster"  alt="Image de la série"/>
+
+    <ion-grid>
+        <ion-row>
+            <ion-col>
+                <ion-label>
+                    <h1>{{ episode.serie.name }}</h1>
+                    <p class="ion-text-justify">{{ episode.serie.tagline }}</p>
+                </ion-label>
+            </ion-col>
+        </ion-row>
+
+        <ion-row>
+            <ion-col>
+                <p>Regarder sur</p>
+                <div *ngFor="let network of episode.serie.networks">
+                    <img width="auto" height="25" [src]="'https://image.tmdb.org/t/p/w300/'+network.logoPath"  alt="Logo du network"/>
+                </div>
+            </ion-col>
+        </ion-row>
+
+        <ion-row>
+            <ion-col>
+                <p class="ion-text-justify">
+                    {{ episode.serie.overview }}
+                </p>
+            </ion-col>
+        </ion-row>
+
+        <ion-row>
+            <ion-col>
+                <p>Sorti le : {{ episode.serie.firstAirDate | date : 'mediumDate' : '' : 'fr' }}</p>
+                <p>{{ episode.serie.voteAverage }} <ion-icon name="star-outline"></ion-icon></p>
+            </ion-col>
+        </ion-row>
+
+
+    </ion-grid>
+
+</ion-content>
+
