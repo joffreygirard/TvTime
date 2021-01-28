@@ -126,6 +126,8 @@ export class Tab1Page implements OnInit {
         this.tabListeSeries = this.service.getSeriesId();
         console.log(this.tabListeSeries);
         this.tabs.resetSerie();
+        this.episodesAVoir = [];
+        this.episodesAVenir = [];
         this.getSeries();
     }
 
