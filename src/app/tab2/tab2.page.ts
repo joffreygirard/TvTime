@@ -13,19 +13,13 @@ import { TabsPage } from '../tabs/tabs.page';
 export class Tab2Page {
   // Initialisation variables
   listeFilmsAVoirId = []; // Get Id from tableaux.services.ts
-  listeFilmsAVoirIdTmp = []; //
-  results= [];
+  results = [];
 
   // Film details variables
-  isdisplayInfo: boolean;
+  isdisplayInfoFilm: boolean;
   currentFilmToDisplay: number;
+  currentFilmToDisplayData: []; // TODO
   tabFilms:string;
-  
-  // Liste des films ajouter depuis la page de recherche (récupère juste l'id du film)
-  tabListeFilms: any[];
-
-
-  searchTerm: string = '';
   today = new Date().getTime();
 
 
@@ -37,38 +31,38 @@ export class Tab2Page {
 
   }
 
+  // Fonction : Au premier affichage de la Tab
   ngOnInit(){
     this.tabFilms = 'aVoir';
+    this.isdisplayInfoFilm = false;
   }
 
-  // Function : Lorsque l'on ouvre la tab
+
+  // Fonction : A chaque ouverture de la tab
   ionViewWillEnter(){
-    // Récupère le tableau des films à avoir
-    this.listeFilmsAVoirIdTmp = this.service.getFilmsId();
-    // Trie
-    let listeFilmsAVoirIdAdd = [];
-    for (let index = 0; index < this.listeFilmsAVoirIdTmp.length; index++) {
-      const theId = this.listeFilmsAVoirIdTmp[index];
-      if (!this.listeFilmsAVoirId.includes(theId)) {​​​​
-        this.listeFilmsAVoirId.push(theId);
-        listeFilmsAVoirIdAdd.push(theId);
-      }​​​​
-    }
+    this.getMoviesFromService();
+  }
 
-    // Ajoute
+  getMoviesFromService() {
+    this.results = []; // On reset le tableau de films
+    this.listeFilmsAVoirId = this.service.getFilmsId(); // On recupere l'id des films à voir
+
+    //
+    let resultsTMP = [];
     let movieServiceAPI = this.movieService;
-    let filmResults = this.results;
 
-    listeFilmsAVoirIdAdd.forEach(function (value) {
+    // On récupère les informations des films grâce à leur id
+    this.listeFilmsAVoirId.forEach(function (value) {
         movieServiceAPI.getMovieData(value)
-        .subscribe(data => filmResults.push(data));
+        .subscribe(data => resultsTMP.push(data));
     });
 
     this.tabs.resetFilm();
-
+    this.results = resultsTMP;
   }
 
-  // Function : convertie date actuelle au format de l'API
+
+  // Foncion : convertie date actuelle au format de l'API
   getDateTimeStamp(movieDate){
     movieDate = movieDate.split("-");
     var newDate = new Date( movieDate[0], movieDate[1] - 1, movieDate[2]);
@@ -76,21 +70,34 @@ export class Tab2Page {
   }
 
 
-  //lorsque l'on change d'onglet
+  // Fonction : lorsque l'on change d'onglet (A voir et A venir)
   segmentChanged(ev: any) {
     this.tabFilms = ev.detail.value;
-   console.log('Segment changed', ev);
+    console.log("tabFilms " + this.tabFilms);
+
+    // console.log('Segment changed', ev);
  }
 
-  //Afficher les détail d'un film
-  displayInfo(idFilm) {
-    this.isdisplayInfo = true;
+  // Fonction : Afficher les détail d'un film
+  displayInfoFilm(idFilm) {
+    this.isdisplayInfoFilm = true;
     this.currentFilmToDisplay = idFilm;
+    console.log("on affiche "+ this.currentFilmToDisplay);
+
+  }
+  // Fonction : Fermer les détail du film
+  undisplayInfoFilm() {
+    this.isdisplayInfoFilm = false;
+    console.log("plus affiché : " + this.currentFilmToDisplay);
   }
 
-  //Fermer les détail du film
-  undisplayInfo() {
-    this.isdisplayInfo = false;
+  //Retire le film numéro "filmID" de la liste des films de TAB2
+  removeFilmToWatch(filmID) {
+    this.isdisplayInfoFilm = false;
+    this.service.removeFilmsId(filmID);
+    this.getMoviesFromService();
+    console.log("tabFilms " + this.tabFilms);
+
   }
 
 }
