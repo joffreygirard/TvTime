@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
+import localeFr from '@angular/common/locales/fr';
+import { registerLocaleData } from '@angular/common';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
@@ -10,6 +12,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { HttpClientModule } from '@angular/common/http';
+
+registerLocaleData(localeFr, 'fr');
 
 @NgModule({
   declarations: [AppComponent],
