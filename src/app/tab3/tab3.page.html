@@ -6,9 +6,10 @@
   </ion-toolbar>
 </ion-header>
 
+<!-- Section Découvrir avec la barre de recherche et l'affichage des films ou séries recherché -->
 <ion-content *ngIf="!isdisplayInfoFilm && !isdisplayInfoSerie" [fullscreen]="true">
 
-  <ion-searchbar placeholder="Rechercher" animated [(ngModel)]="searchTerm" (ionChange)="searchChanged($event)"></ion-searchbar>
+  <ion-searchbar animated placeholder="Rechercher" [(ngModel)]="searchTerm" (ionChange)="searchChanged($event)"></ion-searchbar>
 
   <ion-segment [(ngModel)]="type" (ionChange)="searchChanged($event)" value="film">
     <ion-segment-button value="movie">
@@ -18,47 +19,49 @@
       <ion-label>Série</ion-label>
     </ion-segment-button>
   </ion-segment>
-
-  <!--
-  <ion-item>
-    <ion-label>Select Searchtype</ion-label>
-    <ion-select [(ngModel)]="type" (ionChange)="searchChanged($event)">
-      <ion-select-option value="multi">Tous</ion-select-option>
-      <ion-select-option value="movie">Film</ion-select-option>
-      <ion-select-option value="tv">Séries</ion-select-option>
-    </ion-select>
-  </ion-item>-->
-
  
 
     <div button *ngFor="let item of (results | async)">
 
+      <!-- Le if ci-dessous décide si l'item retourné par notre API est un film ou une série 
+          (Seul les Films ayant l'attribut "title", ça sera donc un film) -->
       <div *ngIf="item.title">
 
         <h5>{{item.title}}</h5>
         <ion-item (click)="displayInfoFilm(item.id)">
           <ion-label>
-              <img [src]="'https://image.tmdb.org/t/p/w300/'+item.poster_path" *ngIf="item.poster_path != 'N/A'" />
+            <!-- Affichage de l'image du film si elle existe sinon on affiche une image par défault -->
+            <div *ngIf="item.poster_path">
+              <img [src]="'https://image.tmdb.org/t/p/w300/'+item.poster_path"/>
+            </div>
+            <div *ngIf="!item.poster_path">
+              <img [src]="'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/No_image_3x4.svg/1200px-No_image_3x4.svg.png'"/>
+            </div>
           </ion-label>
         </ion-item>
 
       </div>
 
+      <!-- Ici, même section qu'au-dessus pour les séries cette fois -->
       <div *ngIf="item.name">
 
         <h5>{{item.name}}</h5>
         <ion-item (click)="displayInfoSerie(item.id)">
           <ion-label>
-              <img [src]="'https://image.tmdb.org/t/p/w300/'+item.poster_path" *ngIf="item.poster_path != 'N/A'" />
+              <div *ngIf="item.poster_path">
+                <img [src]="'https://image.tmdb.org/t/p/w300/'+item.poster_path"/>
+              </div>
+              <div *ngIf="!item.poster_path">
+                <img [src]="'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/No_image_3x4.svg/1200px-No_image_3x4.svg.png'"/>
+              </div>
           </ion-label>
         </ion-item>
 
       </div>
-
     </div>
-
-
 </ion-content>
+
+
 
 <ion-content *ngIf="isdisplayInfoFilm" [fullscreen]="true">
 
@@ -67,7 +70,13 @@
     <div *ngIf="currentFilmToDisplay === item.id">
       <ion-card>
 
-        <img [src]="'https://image.tmdb.org/t/p/w300/'+item.backdrop_path" *ngIf="item.backdrop_path != 'N/A'" />
+        <div *ngIf="item.backdrop_path">
+          <img [src]="'https://image.tmdb.org/t/p/w300/'+item.backdrop_path"/>
+        </div>
+        <div *ngIf="!item.backdrop_path">
+          <img [src]="'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/No_image_3x4.svg/1200px-No_image_3x4.svg.png'"/>
+        </div>
+        
         <ion-card-header>
           <ion-card-title>{{item.title}}</ion-card-title>
           <ion-card-subtitle>{{item.release_date}} ‧ {{item.vote_average}} <ion-icon name="star"></ion-icon> ‧ {{item.original_language}}</ion-card-subtitle>
@@ -81,6 +90,8 @@
 
       </ion-card>
 
+      <!-- Traitement du film, on ajoute le bouton retirer de la liste si le film à déjà été rajouté sinon on peut rajouter
+      n'importe quel film -->
       <div *ngFor="let films of tabFilms">
         <ion-button *ngIf="films === item.id" (click)="removeFilmToWatch(item.id)" color="primary" shape="round" expand="full">Retirer de ma liste</ion-button>
       </div> 
@@ -88,9 +99,7 @@
         <ion-button (click)="addFilmToWatch(item.id)" color="success" shape="round" expand="full">Ajouter à ma liste</ion-button>
       </div>
       <div *ngIf="tabFilms.length !== 0">
-        <div *ngFor="let films of tabFilms">
-          <ion-button *ngIf="films !== item.id" (click)="addFilmToWatch(item.id)" color="success" shape="round" expand="full">Ajouter à ma liste</ion-button>
-        </div>
+        <ion-button *ngIf="!tabFilms.includes(item.id)" (click)="addFilmToWatch(item.id)" color="success" shape="round" expand="full">Ajouter à ma liste</ion-button>
       </div>
 
       <ion-button (click)="undisplayInfoFilm()" color="danger" shape="round" expand="full">Retour</ion-button>
@@ -106,7 +115,13 @@
     <div *ngIf="currentSerieToDisplay === item.id">
       <ion-card>
 
-        <img [src]="'https://image.tmdb.org/t/p/w300/'+item.backdrop_path" *ngIf="item.backdrop_path != 'N/A'" />
+        <div *ngIf="item.backdrop_path">
+          <img [src]="'https://image.tmdb.org/t/p/w300/'+item.backdrop_path"/>
+        </div>
+        <div *ngIf="!item.backdrop_path">
+          <img [src]="'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/No_image_3x4.svg/1200px-No_image_3x4.svg.png'"/>
+        </div>
+
         <ion-card-header>
           <ion-card-title>{{item.name}}</ion-card-title>
           <ion-card-subtitle>{{item.first_air_date}} ‧ {{item.vote_average}} <ion-icon name="star"></ion-icon> ‧ {{item.original_language}}</ion-card-subtitle>
@@ -127,9 +142,7 @@
           <ion-button (click)="addSerieToWatch(item.id)" color="success" shape="round" expand="full">Ajouter à ma liste</ion-button>
       </div>
       <div *ngIf="tabSeries.length !== 0">
-        <div *ngFor="let series of tabSeries">
-          <ion-button *ngIf="series !== item.id" (click)="addSerieToWatch(item.id)" color="success" shape="round" expand="full">Ajouter à ma liste</ion-button>
-        </div>
+          <ion-button *ngIf="!tabSeries.includes(item.id)" (click)="addSerieToWatch(item.id)" color="success" shape="round" expand="full">Ajouter à ma liste</ion-button>
       </div>
       
       <ion-button (click)="undisplayInfoSerie()" color="danger" shape="round" expand="full">Retour</ion-button>

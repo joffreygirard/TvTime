@@ -67,7 +67,7 @@ export class Tab2Page {
 
   }
 
-  // Funcion : convertie date actuelle au format de l'API
+  // Function : convertie date actuelle au format de l'API
   getDateTimeStamp(movieDate){
     movieDate = movieDate.split("-");
     var newDate = new Date( movieDate[0], movieDate[1] - 1, movieDate[2]);

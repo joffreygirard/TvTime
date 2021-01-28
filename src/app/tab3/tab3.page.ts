@@ -27,12 +27,11 @@ export class Tab3Page implements OnInit{
   type: string = "multi";
 
   /**
-   * Constructor of our first page
-   * @param movieService The movie Service to get data
+   * @param movieService Le Service "Movie" pour récupérer les données de notre API
    */
   constructor(private movieService: MovieService,private service: TableauxService) { }
 
-  // méthode lancee automatiquement qui affecte un valeur aux variables (ici la liste des films et séries par exemple)
+  // Méthode lancée automatiquement qui affecte un valeur aux variables
   ngOnInit(){
 
     this.isdisplayInfoFilm = false;
@@ -62,38 +61,38 @@ export class Tab3Page implements OnInit{
     this.isdisplayInfoSerie = false;
   }
 
-  //Ajoute le film numéro "filmID" de la liste des films de TAB2
+  //Ajoute le film numéro "filmID" de la liste des films du Service
   addFilmToWatch(filmID) {
     this.isdisplayInfoFilm = false;
     this.service.addFilmsId(filmID);
   }
 
-  //Retire le film numéro "filmID" de la liste des films de TAB2
+  //Retire le film numéro "filmID" de la liste des films du Service
   removeFilmToWatch(filmID) {
     this.isdisplayInfoFilm = false;
     this.service.removeFilmsId(filmID);
   }
 
-  //Ajoute la série numéro "serieID" de la liste des séries de TAB1
+  //Ajoute la série numéro "serieID" de la liste des séries du Service
   addSerieToWatch(serieID) {
     this.isdisplayInfoSerie = false;
     this.service.addSeriesId(serieID);
     
   }
 
-  //Retire la série numéro "filmID" de la liste des séries de TAB2
+  //Retire la série numéro "filmID" de la liste des séries du Service
   removeSerieToWatch(serieID) {
     this.isdisplayInfoSerie = false;
     this.service.removeSeriesId(serieID);
   }
 
+  // Fonction du service movie et retourne un observable
   searchChanged() {
-    // Fonction du service movie et retourne un observable
     this.results = this.movieService.searchData(this.searchTerm, this.type);
   }
 
+  // Rafraichi la liste des tableaux des films et séries à avoir
   ionViewWillEnter(){
-    // récupère le tableau des films à avoir
     this.tabFilms = this.service.getFilmsId();
     this.tabSeries = this.service.getSeriesId();
   }
