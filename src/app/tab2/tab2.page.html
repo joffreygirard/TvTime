@@ -26,7 +26,7 @@
           <!-- Affiche tous les films à voir -->
           <ion-col size="4" *ngIf="getDateTimeStamp(film.release_date) < today">
             <!-- Affichage de l'image du film si elle existe sinon on affiche une image par défault -->
-            <img *ngIf="film.poster_path"  (click)="displayInfoFilm(film.id)" [src]="'https://image.tmdb.org/t/p/w300'+film.poster_path'"/>
+            <img *ngIf="film.poster_path"  (click)="displayInfoFilm(film.id)" [src]="'https://image.tmdb.org/t/p/w300'+film.poster_path"/>
             <img *ngIf="!film.poster_path" (click)="displayInfoFilm(film.id)" [src]="'https://cdn.fashiola.fr/L645380851/hugo-boss-arti-hesten204x-costume-habille-1-110-homme.jpg'" />
           </ion-col>
           </ng-template>
@@ -39,7 +39,7 @@
         <ng-template ngFor let-film [ngForOf]="results">
         <!-- Affiche tous les films à voir -->
         <ion-col size="4" *ngIf="getDateTimeStamp(film.release_date) > today" >
-          <img *ngIf="film.poster_path"  (click)="displayInfoFilm(film.id)" [src]="'https://image.tmdb.org/t/p/w300'+film.poster_path'"/>
+          <img *ngIf="film.poster_path"  (click)="displayInfoFilm(film.id)" [src]="'https://image.tmdb.org/t/p/w300'+film.poster_path"/>
           <img *ngIf="!film.poster_path" (click)="displayInfoFilm(film.id)" [src]="'https://cdn.fashiola.fr/L645380851/hugo-boss-arti-hesten204x-costume-habille-1-110-homme.jpg'"/>
         </ion-col>
         </ng-template>
@@ -54,7 +54,7 @@
     <!-- Affichage des détails du film currentFilmToDisplay (celui qui est cliqué par l'utilisateur) -->
     <div *ngIf="currentFilmToDisplay === item.id">
       <ion-card>
-        <img *ngIf="item.backdrop_path"  [src]="'https://image.tmdb.org/t/p/w300/'+item.backdrop_path'"/>
+        <img *ngIf="item.backdrop_path"  [src]="'https://image.tmdb.org/t/p/w300/'+item.backdrop_path"/>
         <img *ngIf="!item.backdrop_path" [src]="'https://teda.in/wp-content/uploads/2014/06/noImageAvailable-300x170.jpg'"/>
 
 
