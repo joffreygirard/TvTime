@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TableauxService } from '../service_tableaux/tableaux.service';
+import { TabsPage } from '../tabs/tabs.page';
 
 @Component({
   selector: 'app-tab1',
@@ -14,7 +15,7 @@ export class Tab1Page implements OnInit {
   // Liste des series ajouter depuis la page de recherche (récupère juste l'id de la serie)
   tabListeSeries: any[];
 
-  constructor(private service: TableauxService) {}
+  constructor(private service: TableauxService,private tabs: TabsPage) {}
 
   ngOnInit() {
     /* Par défaut on arrive sur l'onglet épisode à voir */
@@ -56,6 +57,7 @@ export class Tab1Page implements OnInit {
     // récupère le tableau des films à avoir
     this.tabListeSeries = this.service.getSeriesId();
     console.log(this.tabListeSeries);
+    this.tabs.resetSerie();
   }
 
   /* Fonction pour changer de tab (épisodes à voir / épisodes à venir) */

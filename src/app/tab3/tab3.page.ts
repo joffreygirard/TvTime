@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Tab2Page } from '../tab2/tab2.page';
+import { TabsPage } from '../tabs/tabs.page';
 import { MovieService } from '../services/movie.service';
 import { TableauxService } from '../service_tableaux/tableaux.service';
 import { Observable } from 'rxjs';
@@ -29,7 +30,7 @@ export class Tab3Page implements OnInit{
   /**
    * @param movieService Le Service "Movie" pour récupérer les données de notre API
    */
-  constructor(private movieService: MovieService,private service: TableauxService) { }
+  constructor(private movieService: MovieService,private service: TableauxService,private tabs: TabsPage) { }
 
   // Méthode lancée automatiquement qui affecte un valeur aux variables
   ngOnInit(){
@@ -65,6 +66,7 @@ export class Tab3Page implements OnInit{
   addFilmToWatch(filmID) {
     this.isdisplayInfoFilm = false;
     this.service.addFilmsId(filmID);
+    this.tabs.ajouterFilmBadge();
   }
 
   //Retire le film numéro "filmID" de la liste des films du Service
@@ -77,7 +79,7 @@ export class Tab3Page implements OnInit{
   addSerieToWatch(serieID) {
     this.isdisplayInfoSerie = false;
     this.service.addSeriesId(serieID);
-    
+    this.tabs.ajouterSerieBadge();
   }
 
   //Retire la série numéro "filmID" de la liste des séries du Service

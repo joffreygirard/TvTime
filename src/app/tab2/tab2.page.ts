@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { TableauxService } from '../service_tableaux/tableaux.service';
 import { MovieService } from '../services/movie.service';
 import { Observable ,Subject} from 'rxjs';
+import { TabsPage } from '../tabs/tabs.page';
 
 @Component({
   selector: 'app-tab2',
@@ -32,7 +33,7 @@ export class Tab2Page {
   * Constructor of our first page
   * @param movieService The movie Service to get data
   */
-  constructor(private movieService: MovieService,private service: TableauxService) {
+  constructor(private movieService: MovieService,private service: TableauxService,private tabs: TabsPage) {
 
   }
 
@@ -63,7 +64,7 @@ export class Tab2Page {
         .subscribe(data => filmResults.push(data));
     });
 
-    console.log(filmResults);
+    this.tabs.resetFilm();
 
   }
 
