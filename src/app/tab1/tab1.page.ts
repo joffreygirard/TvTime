@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { MovieService } from '../services/movie.service';
 import { ModalController } from '@ionic/angular';
 import { ModalPagePage } from '../modal-page/modal-page.page';
+import { TableauxService } from '../service_tableaux/tableaux.service';
+import { TabsPage } from '../tabs/tabs.page';
 
 @Component({
     selector: 'app-tab1',
@@ -12,30 +14,31 @@ import { ModalPagePage } from '../modal-page/modal-page.page';
 export class Tab1Page implements OnInit {
 
     segment: string;
-    series = [];
     episodesAVoir = [];
     episodesAVenir = [];
 
-    results: [];
+    // Liste des series ajoutées depuis la page de recherche (récupère juste l'id de la serie)
+    tabListeSeries = [];
 
     /**
      * Constructor of our first page
      * @param movieService The movie Service to get data
      * @param modalController
+     * @param service
+     * @param tabs
      */
+    constructor(
+        private movieService: MovieService,
+        public modalController: ModalController,
+        private service: TableauxService,
+        private tabs: TabsPage
+    ) { }
 
-    constructor(private movieService: MovieService, public modalController: ModalController) { }
 
     ngOnInit() {
         /* Par défaut on arrive sur l'onglet épisode à voir */
         this.segment = 'aVoir';
 
-        /* Tableau des séries */
-        this.series = [
-            1402,
-            62286,
-            48866,
-        ];
         this.getSeries();
     }
 
@@ -45,7 +48,7 @@ export class Tab1Page implements OnInit {
         let thisEpisodesAVenir = this.episodesAVenir;
 
         /* Pour chaque série on appel l'API pour récupérer les détails de la série, les saisons et les épisodes */
-        this.series.forEach(function (value) {
+        this.tabListeSeries.forEach(function (value) {
 
             let serieDetails = thisMovieService.getSerieDetailsById(value);
             serieDetails.subscribe(data => {
@@ -111,14 +114,19 @@ export class Tab1Page implements OnInit {
                 }
             });
         });
-
-
-        //console.log(this.episodesAVoir);
     }
 
     /* Fonction pour changer de tab (épisodes à voir / épisodes à venir) */
     segmentChanged(ev: any) {
         this.segment = ev.detail.value;
+    }
+
+    ionViewWillEnter(){
+        // récupère le tableau des films à avoir
+        this.tabListeSeries = this.service.getSeriesId();
+        console.log(this.tabListeSeries);
+        this.tabs.resetSerie();
+        this.getSeries();
     }
 
     /* Fonction pour passer l'épisode en "vu" et le suprimer du tableau des épisodes à voir */

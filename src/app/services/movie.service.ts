@@ -10,11 +10,13 @@ import { map } from 'rxjs/operators';
 export class MovieService {
     apiKey = '6230dbe84810f7836a642975af142575';
     defaultUrl = 'https://api.themoviedb.org/3';
+    url = 'https://api.themoviedb.org/3/';
     language = 'fr-FR';
 
     search = '/search/';
     tv = '/tv/';
     tvSeasons = '/season/'
+
 
     /**
      * Constructor of the Service with Dependency Injection
@@ -35,6 +37,19 @@ export class MovieService {
             map(results => results['results'])
         );
     }
+
+    /**
+     * Get data from the OmdbApi
+     * map the result to return only the results that we need
+     *
+     * @param {string} idMovie Search Term
+     * @returns Observable with the search results
+     */
+    getMovieData(idMovie: string) {
+        return this.http.get(`${this.url}movie/${idMovie}?api_key=${this.apiKey}&language=fr`)
+    }
+
+
 
     /**
      * Récupère les détails d'une série
